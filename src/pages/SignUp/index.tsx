@@ -5,6 +5,7 @@ import {
   ScrollView,
   KeyboardAvoidingView,
   Platform,
+  TextInput,
 } from "react-native";
 import Icon from "react-native-vector-icons/Feather";
 import { useNavigation } from "@react-navigation/native";
@@ -19,6 +20,9 @@ import { Container, Title, BackToSignIn, BackToSignInText } from "./styles";
 const SignUp: React.FC = () => {
   const formRef = useRef<FormHandles>(null);
   const navigation = useNavigation();
+
+  const emailInputRef = useRef<TextInput>(null);
+  const passwordInputRef = useRef<TextInput>(null);
 
   return (
     <>
@@ -42,11 +46,41 @@ const SignUp: React.FC = () => {
                 console.log(FormData);
               }}
             >
-              <Input name="name" icon="user" placeholder="Name" />
+              <Input
+                autoCapitalize="words"
+                name="name"
+                icon="user"
+                placeholder="Name"
+                returnKeyType="next"
+                onSubmitEditing={() => {
+                  emailInputRef.current?.focus();
+                }}
+              />
 
-              <Input name="email" icon="mail" placeholder="Email" />
+              <Input
+                ref={emailInputRef}
+                keyboardType="email-address"
+                autoCapitalize="none"
+                autoCorrect={false}
+                name="email"
+                icon="mail"
+                placeholder="Email"
+                returnKeyType="next"
+                onSubmitEditing={() => {
+                  passwordInputRef.current?.focus();
+                }}
+              />
 
-              <Input name="password" icon="lock" placeholder="Password" />
+              <Input
+                ref={passwordInputRef}
+                secureTextEntry
+                name="password"
+                icon="lock"
+                placeholder="Password"
+                textContentType="newPassword"
+                returnKeyType="send"
+                onSubmitEditing={() => formRef.current?.submitForm()}
+              />
 
               <Button
                 onPress={() => {
