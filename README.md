@@ -6,7 +6,7 @@
 
 GoBarber is an app to doing schedule request for barber shops.
 
-This application has three parts, this repository is a the mobile application.
+The GoBarber project has three parts, this repository has the mobile application.
 The backend is available here: [gobarber-backend](https://github.com/mouracamila/node-typescript-project)
 And the frontend here: [gobarber-web](https://github.com/mouracamila/gobarber-web)
 
