@@ -36,42 +36,45 @@ const SignUp: React.FC = () => {
   const emailInputRef = useRef<TextInput>(null);
   const passwordInputRef = useRef<TextInput>(null);
 
-  const handleSignUp = useCallback(async (data: SignUpFormData) => {
-    try {
-      formRef.current?.setErrors({});
+  const handleSignUp = useCallback(
+    async (data: SignUpFormData) => {
+      try {
+        formRef.current?.setErrors({});
 
-      const schema = Yup.object().shape({
-        name: Yup.string().required("Name is required"),
-        email: Yup.string()
-          .required("Email is required")
-          .email("Type a valid email"),
-        password: Yup.string().min(6, "Type at least 6 characters"),
-      });
+        const schema = Yup.object().shape({
+          name: Yup.string().required("Name is required"),
+          email: Yup.string()
+            .required("Email is required")
+            .email("Type a valid email"),
+          password: Yup.string().min(6, "Type at least 6 characters"),
+        });
 
-      await schema.validate(data, {
-        abortEarly: false,
-      });
+        await schema.validate(data, {
+          abortEarly: false,
+        });
 
-      await api.post("/users", data);
+        await api.post("/users", data);
 
-      Alert.alert("Successful registration", "You can now log into the app");
+        Alert.alert("Successful registration", "You can now log into the app");
 
-      navigation.goBack();
-    } catch (err) {
-      if (err instanceof Yup.ValidationError) {
-        const errors = getValidationErrors(err);
+        navigation.goBack();
+      } catch (err) {
+        if (err instanceof Yup.ValidationError) {
+          const errors = getValidationErrors(err);
 
-        formRef.current?.setErrors(errors);
+          formRef.current?.setErrors(errors);
 
-        return;
+          return;
+        }
+
+        Alert.alert(
+          "Register Error",
+          "Happens a error in the Register, please try again"
+        );
       }
-
-      Alert.alert(
-        "Register Error",
-        "Happens a error in the Register, please try again"
-      );
-    }
-  }, []);
+    },
+    [navigation]
+  );
 
   return (
     <>
